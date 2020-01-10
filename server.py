@@ -1,6 +1,11 @@
 from flask import Flask, render_template,url_for,request,redirect
 import csv
 app = Flask(__name__)
+import datetime
+now = datetime.datetime.now()
+today_date = now.strftime("%Y-%m-%d")
+
+
 
 @app.route('/')
 def my_home():
@@ -8,7 +13,10 @@ def my_home():
 
 @app.route('/<string:page_name>')
 def go_page(page_name):
-    return render_template(page_name)
+    if page_name == 'components.html':
+        return render_template(page_name,date=today_date)
+    else:
+        return render_template(page_name)
 
 def writing(data):      #Currently
     with open('../database.txt', mode='a') as datum:
@@ -27,7 +35,6 @@ def csvwriting(data):
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    error = None
     if request.method == 'POST':
         try:
             dataa = dict(request.form)
