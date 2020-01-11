@@ -1,4 +1,5 @@
 from flask import Flask, render_template,url_for,request,redirect
+from passcheck import check
 import csv
 app = Flask(__name__)
 import datetime
@@ -45,4 +46,16 @@ def login():
     else:
         return 'something just went wrong, Try again'
 
+@app.route('/finding', methods=['POST', 'GET'])
+def findout():
+    if request.method == 'POST':
+        try:
+            data_a = dict(request.form)
+            print(data_a)
+            print(check(data_a['inppassword']))
+            return render_template('result.html',x = check(data_a['inppassword']))
+        except:
+            return 'Not found on database'
+    else:
+        return 'something just went wrong, Try again'
 
