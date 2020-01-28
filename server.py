@@ -27,12 +27,12 @@ def writing(data):      #Currently
         file = datum.write(f'\n {fullname } {email} {password}')
 
 def csvwriting(data):
-    with open('../datasheet.csv',newline='',mode='a') as datum1:
+    with open('datasheet.csv',newline='',mode='a') as datum1:
         fullname = data['full name']
         email = data['email']
-        password = data['password']
+        message = data['Message']
         csv_writer = csv.writer(datum1,delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        csv_writer.writerow([fullname,email,password])
+        csv_writer.writerow([fullname,email,message])
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -40,6 +40,7 @@ def login():
         try:
             dataa = dict(request.form)
             csvwriting(dataa)
+            print(dataa)
             return render_template('thank.html',name = dataa['full name'])
         except:
             return 'Not found on database'
